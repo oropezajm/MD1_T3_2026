@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad III: Sistemas Digitales - Álgebra de Boole</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-btn.active {
+            border-bottom-color: #3b82f6;
+            color: #60a5fa;
+            background-color: rgba(30, 41, 59, 0.7);
+        }
+        .wire-active { stroke: #22c55e; stroke-width: 3; filter: drop-shadow(0 0 3px #22c55e); }
+        .wire-inactive { stroke: #ef4444; stroke-width: 2.5; opacity: 0.6; }
+        .gate-body { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; }
+    </style>
+</head>
+<body class="h-full flex flex-col bg-slate-950">
+
+    <!-- Header / Navbar estilo LMS Universitario -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg text-white">
+                        <i class="fa-solid fa-microchip text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-white leading-tight">Sistemas Digitales</h1>
+                        <p class="text-xs text-slate-400">Unidad III: Álgebra de Boole</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-2 text-xs font-semibold bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 text-slate-300">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Plataforma Educativa Interactiva
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto no-scrollbar border-t border-slate-800/50 mt-1" id="main-nav">
+                <button onclick="switchTab('conceptos')" id="tab-conceptos" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-300 hover:text-white border-b-2 border-transparent transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-book-open"></i> 1. Conceptos Básicos
+                </button>
+                <button onclick="switchTab('compuertas')" id="tab-compuertas" class="tab-btn px-4 py-3 text-sm font-medium text-slate-300 hover:text-white border-b-2 border-transparent transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-toggle-on"></i> 2. Compuertas Lógicas
+                </button>
+                <button onclick="switchTab('precedencia')" id="tab-precedencia" class="tab-btn px-4 py-3 text-sm font-medium text-slate-300 hover:text-white border-b-2 border-transparent transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-sitemap"></i> 3. Precedencia y Circuitos
+                </button>
+                <button onclick="switchTab('cuestionario')" id="tab-cuestionario" class="tab-btn px-4 py-3 text-sm font-medium text-slate-300 hover:text-white border-b-2 border-transparent transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-graduation-cap"></i> 4. Quiz Interactivo
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- SECTION 1: CONCEPTOS BÁSICOS -->
+        <section id="sec-conceptos" class="space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fa-solid fa-graduation-cap text-blue-400 text-2xl"></i>
+                    <h2 class="text-2xl font-bold text-white">Introducción al Álgebra Booleana</h2>
+                </div>
+                <p class="text-slate-300 leading-relaxed mb-6">
+                    El álgebra de Boole es la herramienta matemática fundamental empleada para el análisis y diseño de circuitos de sistemas digitales. A diferencia del álgebra ordinaria, opera exclusivamente sobre variables discretas binarias.
+                </p>
+
+                <!-- Comparison Cards -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/60 border border-slate-700/60 rounded-lg p-5">
+                        <div class="flex items-center gap-2 text-sky-400 font-semibold mb-3 text-lg">
+                            <i class="fa-solid fa-calculator"></i> Álgebra Ordinaria
+                        </div>
+                        <ul class="space-y-2 text-slate-300 text-sm list-disc list-inside">
+                            <li>Trabaja con el conjunto de los números reales ($\mathbb{R}$).</li>
+                            <li>Incluye operaciones como suma, resta, multiplicación, división, fracciones, decimales, raíces cuadradas y números negativos.</li>
+                            <li>Las variables pueden tomar infinitos valores continuos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-950/40 border border-blue-800/50 rounded-lg p-5">
+                        <div class="flex items-center gap-2 text-blue-400 font-semibold mb-3 text-lg">
+                            <i class="fa-solid fa-bolt"></i> Álgebra Booleana
+                        </div>
+                        <ul class="space-y-2 text-slate-300 text-sm list-disc list-inside">
+                            <li>Las constantes y variables sólo pueden adoptar dos valores posibles: <strong class="text-emerald-400">0</strong> ó <strong class="text-emerald-400">1</strong>.</li>
+                            <li>Los valores <strong>0 y 1 no representan cantidades numéricas</strong>, sino estados o <strong class="text-blue-300">Niveles Lógicos de Voltaje</strong> (ej. 0V = LOW = 0, +5V = HIGH = 1).</li>
+                            <li><strong>NO existen:</strong> fracciones, decimales, números negativos ni raíces cuadradas.</li>
+                            <li>Solo existen 3 operaciones básicas fundamentales: <strong class="text-amber-300">AND</strong>, <strong class="text-amber-300">OR</strong> y <strong class="text-amber-300">NOT</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tablas de Verdad & Combinatoria -->
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-emerald-400"></i> ¿Qué es una Tabla de Verdad?
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Una <strong>tabla de verdad</strong> es un método formal para describir el comportamiento de salida de un circuito lógico para cada una de las combinaciones posibles en sus entradas. Permite definir sin ambigüedad la función lógica deseada.
+                    </p>
+                    
+                    <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 flex flex-col sm:flex-row items-center justify-around gap-4">
+                        <div class="text-center">
+                            <!-- Circuito genérico 2 entradas -->
+                            <svg width="180" height="90" class="mx-auto">
+                                <rect x="50" y="20" width="80" height="50" fill="#1e293b" stroke="#64748b" stroke-width="2" rx="4"/>
+                                <text x="90" y="50" fill="#94a3b8" font-size="20" font-weight="bold" text-anchor="middle">?</text>
+                                <line x1="10" y1="32" x2="50" y2="32" stroke="#38bdf8" stroke-width="2"/>
+                                <line x1="10" y1="58" x2="50" y2="58" stroke="#38bdf8" stroke-width="2"/>
+                                <line x1="130" y1="45" x2="170" y2="45" stroke="#38bdf8" stroke-width="2"/>
+                                <circle cx="170" cy="45" r="4" fill="#38bdf8"/>
+                                <text x="5" y="36" fill="#38bdf8" font-size="12" font-weight="bold">A</text>
+                                <text x="5" y="62" fill="#38bdf8" font-size="12" font-weight="bold">B</text>
+                                <text x="175" y="49" fill="#38bdf8" font-size="12" font-weight="bold">X</text>
+                            </svg>
+                            <span class="text-xs text-slate-400 mt-1 block">Circuito de 2 entradas ($A, B$)</span>
+                        </div>
+                        <div class="text-sm text-slate-300 space-y-2">
+                            <p class="font-semibold text-blue-400">Regla General de Combinaciones:</p>
+                            <p>El número total de filas en una tabla de verdad para $n$ entradas es:</p>
+                            <div class="text-center bg-slate-900 py-2 rounded font-mono text-emerald-400 font-bold border border-slate-800 text-lg">
+                                Combinaciones = 2<sup>n</sup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculadora Interactiva de Combinaciones -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-amber-400"></i> Calculadora de Entradas
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">Calcula cuántos estados o combinaciones posibles requiere tu tabla de verdad.</p>
+                        
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Número de entradas ($n$):</label>
+                        <input type="range" id="input-n-calc" min="1" max="8" value="4" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500" oninput="updateCalcCombinations()">
+                        
+                        <div class="flex justify-between text-xs text-slate-400 mt-1">
+                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                        <span class="text-xs text-slate-400 block mb-1">Entradas ($n$) = <span id="calc-n-val" class="text-white font-bold">4</span></span>
+                        <div class="text-2xl font-extrabold text-blue-400 font-mono" id="calc-result">16 Combinaciones</div>
+                        <p class="text-[11px] text-slate-500 mt-1" id="calc-explain">2<sup>4</sup> = 2 × 2 × 2 × 2 = 16</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COMPUERTAS LÓGICAS INTERACTIVAS -->
+        <section id="sec-compuertas" class="space-y-6 hidden">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <h2 class="text-2xl font-bold text-white mb-2">Compuertas Lógicas Básicas y Derivadas</h2>
+                <p class="text-slate-300 text-sm mb-6">
+                    Las compuertas lógicas son circuitos electrónicos construidos con diodos, transistores y resistencias. Interactúa activando las entradas para observar el nivel de salida y la forma de onda.
+                </p>
+
+                <!-- Gate Selector Tabs -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-slate-800 pb-3" id="gate-selector">
+                    <button onclick="selectGate('AND')" id="btn-gate-AND" class="gate-btn active bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">Compuerta AND</button>
+                    <button onclick="selectGate('OR')" id="btn-gate-OR" class="gate-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Compuerta OR</button>
+                    <button onclick="selectGate('NOT')" id="btn-gate-NOT" class="gate-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Compuerta NOT (Inversor)</button>
+                    <button onclick="selectGate('NAND')" id="btn-gate-NAND" class="gate-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Compuerta NAND</button>
+                    <button onclick="selectGate('NOR')" id="btn-gate-NOR" class="gate-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Compuerta NOR</button>
+                </div>
+
+                <!-- Gate Interactive Studio -->
+                <div class="grid lg:grid-cols-12 gap-6 items-start">
+                    <!-- Left Column: Controls & Dynamic Circuit SVG -->
+                    <div class="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-6 flex flex-col items-center">
+                        <div class="w-full flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono text-slate-400 bg-slate-900 px-3 py-1 rounded border border-slate-800" id="gate-type-badge">Compuerta AND</span>
+                            <span class="text-sm font-bold text-amber-400 font-mono" id="gate-eq-display">Q = A · B</span>
+                        </div>
+
+                        <!-- Circuit Diagram Canvas / SVG -->
+                        <div class="relative my-4 w-full flex justify-center items-center py-6 bg-slate-900/40 rounded-lg border border-slate-800/60" id="gate-svg-container">
+                            <!-- SVG generated dynamically by JS -->
+                        </div>
+
+                        <!-- Input Interactive Switches -->
+                        <div class="w-full grid grid-cols-2 gap-4 mt-2" id="gate-inputs-panel">
+                            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                                <span class="text-sm font-bold text-sky-400">Entrada A</span>
+                                <button id="btn-toggle-A" onclick="toggleGateInput('A')" class="px-4 py-1.5 rounded font-mono font-bold text-sm bg-red-950 text-red-400 border border-red-800 transition-all">0 (0V)</button>
+                            </div>
+                            <div id="wrapper-input-B" class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                                <span class="text-sm font-bold text-sky-400">Entrada B</span>
+                                <button id="btn-toggle-B" onclick="toggleGateInput('B')" class="px-4 py-1.5 rounded font-mono font-bold text-sm bg-red-950 text-red-400 border border-red-800 transition-all">0 (0V)</button>
+                            </div>
+                        </div>
+
+                        <!-- Output Status LED Indicator -->
+                        <div class="w-full mt-4 p-4 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div id="led-indicator" class="w-5 h-5 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></div>
+                                <span class="text-sm font-medium text-slate-200">Salida Resultante ($Q$):</span>
+                            </div>
+                            <span id="output-val-text" class="text-lg font-mono font-extrabold text-red-400">0 (Nivel Bajo)</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Description & Truth Table -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5">
+                            <h3 class="text-base font-bold text-white mb-2" id="gate-title-desc">Operación AND (Conjunción)</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed" id="gate-text-desc">
+                                Es una operación equivalente a la multiplicación ordinaria o la conjunción lógica ($\land$). La salida $Q$ es <strong class="text-emerald-400">1</strong> únicamente cuando <strong>TODAS</strong> sus entradas están en nivel lógico HIGH (1).
+                            </p>
+                        </div>
+
+                        <!-- Dynamic Truth Table -->
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Tabla de Verdad</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-center text-sm border-collapse" id="gate-truth-table">
+                                    <!-- Table generated dynamically -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PRECEDENCIA Y CIRCUITOS COMBINACIONALES -->
+        <section id="sec-precedencia" class="space-y-6 hidden">
+            <!-- Theory Rules -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <h2 class="text-2xl font-bold text-white mb-3">Precedencia de Operaciones Lógicas</h2>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    Para resolver o evaluar expresiones booleanas correctamente sin ambigüedad, es imprescindible conocer el orden estricto de ejecución de las operaciones.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-slate-950 p-4 rounded-lg border-l-4 border-amber-500 border-y border-r border-slate-800">
+                        <div class="font-bold text-amber-400 mb-1">1° Prioridad: Paréntesis</div>
+                        <p class="text-xs text-slate-400">Toda expresión encerrada entre paréntesis se evalúa primero. Modifica el orden predeterminado.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border-l-4 border-blue-500 border-y border-r border-slate-800">
+                        <div class="font-bold text-blue-400 mb-1">2° Prioridad: Operación NOT / AND</div>
+                        <p class="text-xs text-slate-400">Si no hay paréntesis, la operación <strong>AND (producto)</strong> se realiza <strong>antes que la operación OR</strong>.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border-l-4 border-emerald-500 border-y border-r border-slate-800">
+                        <div class="font-bold text-emerald-400 mb-1">3° Prioridad: Operación OR</div>
+                        <p class="text-xs text-slate-400">La suma lógica (<strong>OR</strong>) se ejecuta al final salvo que se altere por agrupamiento.</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-slate-800/60 rounded-lg text-xs text-slate-300 border border-slate-700/50">
+                    <strong class="text-amber-300">Ejemplo de Interpretación:</strong> La expresión <code class="bg-slate-900 px-2 py-0.5 rounded text-sky-300">A · B + C</code> se interpreta estrictamente como <code class="bg-slate-900 px-2 py-0.5 rounded text-sky-300">(A · B) + C</code>, ejecutando el producto $A \cdot B$ antes de sumar $C$.
+                </div>
+            </div>
+
+            <!-- Interactive Circuit Explorer -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Simulador de Circuitos del Documento</h3>
+                        <p class="text-xs text-slate-400">Selecciona los ejercicios resueltos en el material para analizar su propagación lógica.</p>
+                    </div>
+                    <select id="circuit-select" onchange="loadSelectedCircuit()" class="bg-slate-950 text-slate-200 border border-slate-700 font-semibold text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="1">Circuito 1: X = (A + B) · C</option>
+                        <option value="2">Circuito 2: X = (x1 · x2 + x3)'</option>
+                        <option value="3">Circuito 3: Y = A·C + B·C + A·B·C</option>
+                        <option value="4">Circuito 4: X = A·B + B'·C</option>
+                    </select>
+                </div>
+
+                <!-- Simulation Canvas & Truth Table Layout -->
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <!-- Dynamic Schematic -->
+                    <div class="lg:col-span-7 bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono text-slate-400" id="circuit-num-label">Ejercicio N° 1</span>
+                                <span class="text-base font-bold text-emerald-400 font-mono" id="circuit-formula">X = (A + B) · C</span>
+                            </div>
+
+                            <!-- Visual Circuit Flow SVG -->
+                            <div id="sim-circuit-svg" class="w-full flex justify-center py-6 bg-slate-900/50 rounded-lg border border-slate-800 my-2">
+                                <!-- SVG dynamic circuit -->
+                            </div>
+                        </div>
+
+                        <!-- Input Controls for Circuit -->
+                        <div class="mt-4 pt-4 border-t border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 block mb-2">Cambiar Estado de Entradas:</span>
+                            <div class="flex flex-wrap gap-3" id="sim-inputs-container">
+                                <!-- Dynamic Input Buttons -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Truth Table for current circuit -->
+                    <div class="lg:col-span-5 bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-300 mb-2 flex items-center justify-between">
+                                <span>Tabla de Verdad Resultante</span>
+                                <span class="text-[10px] text-slate-500 font-normal">* Resaltado estado actual</span>
+                            </h4>
+                            <div class="overflow-y-auto max-h-72 border border-slate-800 rounded-lg">
+                                <table class="w-full text-center text-xs" id="sim-truth-table">
+                                    <!-- Table rendered by JS -->
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Intermediate Signals Debugger -->
+                        <div class="mt-4 p-3 bg-slate-900 rounded-lg border border-slate-800/80">
+                            <span class="text-xs font-bold text-slate-400 block mb-1">Señales Intermedias:</span>
+                            <div class="text-xs font-mono text-slate-300 space-y-1" id="sim-intermediates">
+                                <!-- Signals text -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: QUIZ EDUCATIVO INTERACTIVO -->
+        <section id="sec-cuestionario" class="space-y-6 hidden">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-blue-400"></i> Evaluación de Conocimientos
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Responde a las 10 preguntas sobre el contenido de la Unidad III para comprobar tu aprendizaje.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-semibold text-slate-400">Progreso:</span>
+                        <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-sm font-bold font-mono text-blue-400" id="quiz-progress">
+                            0 / 10
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Card Container -->
+                <div id="quiz-container" class="max-w-3xl mx-auto">
+                    <!-- Dynamic Question Card -->
+                    <div id="question-card" class="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-xl">
+                        <div class="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider mb-2" id="quiz-q-num">
+                            Pregunta 1 de 10
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-6" id="quiz-q-text">
+                            Cargando pregunta...
+                        </h3>
+
+                        <!-- Options List -->
+                        <div class="space-y-3 mb-6" id="quiz-options">
+                            <!-- Options rendered by JS -->
+                        </div>
+
+                        <!-- Feedback Panel -->
+                        <div id="quiz-feedback" class="hidden p-4 rounded-lg mb-6 border text-sm">
+                            <!-- Dynamic feedback -->
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex justify-end gap-3">
+                            <button id="btn-next-q" onclick="nextQuestion()" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all flex items-center gap-2">
+                                Siguiente <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Final Results Screen (Hidden initially) -->
+                    <div id="quiz-results" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-8 text-center space-y-6">
+                        <div class="w-20 h-20 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center mx-auto text-3xl border border-blue-500/30">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">¡Cuestionario Finalizado!</h3>
+                            <p class="text-sm text-slate-400">Resumen de tu rendimiento académico:</p>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl max-w-sm mx-auto">
+                            <div class="text-4xl font-extrabold text-white mb-1 font-mono" id="final-score-text">0 / 10</div>
+                            <div class="text-xs font-semibold" id="final-rating">Sin calificar</div>
+                        </div>
+
+                        <button onclick="resetQuiz()" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm border border-slate-700 transition-all inline-flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Reiniciar Cuestionario
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        Plataforma Universitaria de Aprendizaje • Unidad III: Sistemas Digitales y Álgebra de Boole
+    </footer>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // --- 1. TAB NAVIGATION ---
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            if (tabId === 'compuertas') renderCurrentGate();
+            if (tabId === 'precedencia') loadSelectedCircuit();
+        }
+
+        // --- 2. CALCULATOR COMBINATIONS ---
+        function updateCalcCombinations() {
+            const n = parseInt(document.getElementById('input-n-calc').value);
+            const total = Math.pow(2, n);
+            document.getElementById('calc-n-val').textContent = n;
+            document.getElementById('calc-result').textContent = `${total} Combinaciones`;
+            document.getElementById('calc-explain').textContent = `2^${n} = ${Array(n).fill('2').join(' × ')} = ${total}`;
+        }
+
+        // --- 3. GATE STUDIO STATE & RENDER ---
+        let currentGate = 'AND';
+        let gateInputs = { A: 0, B: 0 };
+
+        const gateDefinitions = {
+            AND: {
+                title: 'Operación AND (Conjunción)',
+                symbol: 'Q = A · B',
+                desc: 'Es una operación equivalente a la multiplicación ordinaria o la conjunción lógica (∧). La salida Q es 1 únicamente si TODAS sus entradas están en nivel alto (1).',
+                calc: (a, b) => a & b,
+                hasB: true
+            },
+            OR: {
+                title: 'Operación OR (Disyunción)',
+                symbol: 'Q = A + B',
+                desc: 'Es equivalente a la suma lógica o disyunción (∨). La salida Q es 1 si AL MENOS UNA de sus entradas se encuentra en nivel alto (1).',
+                calc: (a, b) => a | b,
+                hasB: true
+            },
+            NOT: {
+                title: 'Operación NOT (Inversor)',
+                symbol: 'Q = A\'',
+                desc: 'Invierte el estado del nivel lógico de entrada. Si la entrada A es 0, la salida Q es 1 y viceversa.',
+                calc: (a) => a === 0 ? 1 : 0,
+                hasB: false
+            },
+            NAND: {
+                title: 'Compuerta NAND (AND Invertida)',
+                symbol: 'Q = (A · B)\'',
+                desc: 'Opera exactamente como una compuerta AND seguida de un inversor NOT. La salida es 0 sólo cuando ambas entradas son 1.',
+                calc: (a, b) => (a & b) === 1 ? 0 : 1,
+                hasB: true
+            },
+            NOR: {
+                title: 'Compuerta NOR (OR Invertida)',
+                symbol: 'Q = (A + B)\'',
+                desc: 'Funciona exactamente como una compuerta OR seguida por un inversor NOT. La salida es 1 únicamente si todas sus entradas son 0.',
+                calc: (a, b) => (a | b) === 1 ? 0 : 1,
+                hasB: true
+            }
+        };
+
+        function selectGate(gateKey) {
+            currentGate = gateKey;
+            document.querySelectorAll('.gate-btn').forEach(b => {
+                b.classList.remove('bg-blue-600', 'text-white');
+                b.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            const activeBtn = document.getElementById(`btn-gate-${gateKey}`);
+            activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+            activeBtn.classList.add('bg-blue-600', 'text-white');
+
+            // Hide or show Input B toggle depending on NOT gate
+            const wrapperB = document.getElementById('wrapper-input-B');
+            if (gateDefinitions[gateKey].hasB) {
+                wrapperB.classList.remove('hidden');
+            } else {
+                wrapperB.classList.add('hidden');
+            }
+
+            renderCurrentGate();
+        }
+
+        function toggleGateInput(inputKey) {
+            gateInputs[inputKey] = gateInputs[inputKey] === 0 ? 1 : 0;
+            const btn = document.getElementById(`btn-toggle-${inputKey}`);
+            if (gateInputs[inputKey] === 1) {
+                btn.className = "px-4 py-1.5 rounded font-mono font-bold text-sm bg-emerald-950 text-emerald-400 border border-emerald-700 transition-all";
+                btn.textContent = "1 (+5V)";
+            } else {
+                btn.className = "px-4 py-1.5 rounded font-mono font-bold text-sm bg-red-950 text-red-400 border border-red-800 transition-all";
+                btn.textContent = "0 (0V)";
+            }
+            renderCurrentGate();
+        }
+
+        function renderCurrentGate() {
+            const def = gateDefinitions[currentGate];
+            document.getElementById('gate-type-badge').textContent = `Compuerta ${currentGate}`;
+            document.getElementById('gate-eq-display').textContent = def.symbol;
+            document.getElementById('gate-title-desc').textContent = def.title;
+            document.getElementById('gate-text-desc').textContent = def.desc;
+
+            // Calculate output
+            const outVal = def.hasB ? def.calc(gateInputs.A, gateInputs.B) : def.calc(gateInputs.A);
+
+            // Update LED
+            const led = document.getElementById('led-indicator');
+            const outTxt = document.getElementById('output-val-text');
+            if (outVal === 1) {
+                led.className = "w-5 h-5 rounded-full bg-emerald-500 shadow-[0_0_12px_#10b981]";
+                outTxt.className = "text-lg font-mono font-extrabold text-emerald-400";
+                outTxt.textContent = "1 (Nivel Alto)";
+            } else {
+                led.className = "w-5 h-5 rounded-full bg-red-500 shadow-[0_0_5px_#ef4444]";
+                outTxt.className = "text-lg font-mono font-extrabold text-red-400";
+                outTxt.textContent = "0 (Nivel Bajo)";
+            }
+
+            // Draw SVG Gate
+            drawGateSVG(currentGate, gateInputs.A, gateInputs.B, outVal, def.hasB);
+
+            // Render Gate Truth Table
+            renderGateTruthTable(currentGate, def);
+        }
+
+        function drawGateSVG(gate, inA, inB, outVal, hasB) {
+            const wireAColor = inA === 1 ? '#22c55e' : '#ef4444';
+            const wireBColor = inB === 1 ? '#22c55e' : '#ef4444';
+            const wireOutColor = outVal === 1 ? '#22c55e' : '#ef4444';
+
+            let svgContent = '';
+
+            if (gate === 'AND' || gate === 'NAND') {
+                svgContent = `
+                    <svg width="280" height="120" viewBox="0 0 280 120">
+                        <!-- Wires IN -->
+                        <line x1="30" y1="35" x2="100" y2="35" stroke="${wireAColor}" stroke-width="3" />
+                        ${hasB ? `<line x1="30" y1="85" x2="100" y2="85" stroke="${wireBColor}" stroke-width="3" />` : ''}
+                        
+                        <!-- Gate Body -->
+                        <path d="M 100 20 L 140 20 A 40 40 0 0 1 140 100 L 100 100 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                        
+                        ${gate === 'NAND' ? `
+                            <!-- Inversion Bubble -->
+                            <circle cx="186" cy="60" r="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                            <line x1="192" y1="60" x2="250" y2="60" stroke="${wireOutColor}" stroke-width="3" />
+                        ` : `
+                            <line x1="180" y1="60" x2="250" y2="60" stroke="${wireOutColor}" stroke-width="3" />
+                        `}
+
+                        <!-- Labels -->
+                        <text x="15" y="39" fill="${wireAColor}" font-size="14" font-weight="bold">A=${inA}</text>
+                        ${hasB ? `<text x="15" y="89" fill="${wireBColor}" font-size="14" font-weight="bold">B=${inB}</text>` : ''}
+                        <text x="255" y="64" fill="${wireOutColor}" font-size="14" font-weight="bold">Q=${outVal}</text>
+                    </svg>
+                `;
+            } else if (gate === 'OR' || gate === 'NOR') {
+                svgContent = `
+                    <svg width="280" height="120" viewBox="0 0 280 120">
+                        <line x1="30" y1="35" x2="105" y2="35" stroke="${wireAColor}" stroke-width="3" />
+                        <line x1="30" y1="85" x2="105" y2="85" stroke="${wireBColor}" stroke-width="3" />
+                        
+                        <path d="M 95 20 Q 120 60 95 100 Q 145 100 180 60 Q 145 20 95 20 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                        
+                        ${gate === 'NOR' ? `
+                            <circle cx="186" cy="60" r="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                            <line x1="192" y1="60" x2="250" y2="60" stroke="${wireOutColor}" stroke-width="3" />
+                        ` : `
+                            <line x1="180" y1="60" x2="250" y2="60" stroke="${wireOutColor}" stroke-width="3" />
+                        `}
+
+                        <text x="15" y="39" fill="${wireAColor}" font-size="14" font-weight="bold">A=${inA}</text>
+                        <text x="15" y="89" fill="${wireBColor}" font-size="14" font-weight="bold">B=${inB}</text>
+                        <text x="255" y="64" fill="${wireOutColor}" font-size="14" font-weight="bold">Q=${outVal}</text>
+                    </svg>
+                `;
+            } else if (gate === 'NOT') {
+                svgContent = `
+                    <svg width="280" height="120" viewBox="0 0 280 120">
+                        <line x1="30" y1="60" x2="100" y2="60" stroke="${wireAColor}" stroke-width="3" />
+                        
+                        <!-- Inverter Triangle -->
+                        <polygon points="100,25 100,95 165,60" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                        <!-- Bubble -->
+                        <circle cx="171" cy="60" r="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
+                        
+                        <line x1="177" y1="60" x2="250" y2="60" stroke="${wireOutColor}" stroke-width="3" />
+
+                        <text x="15" y="64" fill="${wireAColor}" font-size="14" font-weight="bold">A=${inA}</text>
+                        <text x="255" y="64" fill="${wireOutColor}" font-size="14" font-weight="bold">Q=${outVal}</text>
+                    </svg>
+                `;
+            }
+
+            document.getElementById('gate-svg-container').innerHTML = svgContent;
+        }
+
+        function renderGateTruthTable(gate, def) {
+            const table = document.getElementById('gate-truth-table');
+            if (!def.hasB) {
+                // NOT Gate table
+                table.innerHTML = `
+                    <thead>
+                        <tr class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                            <th class="py-2 px-3">Entrada (A)</th>
+                            <th class="py-2 px-3">Salida (Q)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                        <tr class="${gateInputs.A === 0 ? 'bg-blue-900/40 text-blue-300 font-bold' : ''}">
+                            <td class="py-2">0</td><td class="py-2">1</td>
+                        </tr>
+                        <tr class="${gateInputs.A === 1 ? 'bg-blue-900/40 text-blue-300 font-bold' : ''}">
+                            <td class="py-2">1</td><td class="py-2">0</td>
+                        </tr>
+                    </tbody>
+                `;
+            } else {
+                // 2 Inputs table
+                const rows = [
+                    {a:0, b:0}, {a:0, b:1}, {a:1, b:0}, {a:1, b:1}
+                ];
+                let rowsHtml = rows.map(r => {
+                    const res = def.calc(r.a, r.b);
+                    const isActive = (r.a === gateInputs.A && r.b === gateInputs.B);
+                    return `
+                        <tr class="${isActive ? 'bg-blue-900/50 text-blue-300 font-bold' : ''}">
+                            <td class="py-2">${r.a}</td>
+                            <td class="py-2">${r.b}</td>
+                            <td class="py-2 font-mono">${res}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                table.innerHTML = `
+                    <thead>
+                        <tr class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                            <th class="py-2 px-3">A</th>
+                            <th class="py-2 px-3">B</th>
+                            <th class="py-2 px-3">Q = ${def.symbol.split('=')[1]}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                        ${rowsHtml}
+                    </tbody>
+                `;
+            }
+        }
+
+        // --- 4. CIRCUIT SIMULATOR (SECTION 3) ---
+        const circuitsData = {
+            "1": {
+                num: "Ejercicio N° 1 (Página PPTX)",
+                formula: "X = (A + B) · C",
+                inputs: ['A', 'B', 'C'],
+                state: { A: 1, B: 0, C: 1 },
+                calc: (s) => {
+                    const orVal = s.A | s.B;
+                    const finalX = orVal & s.C;
+                    return {
+                        inter: `(A + B) = ${orVal}`,
+                        out: finalX
+                    };
+                },
+                svg: (s, res) => `
+                    <svg width="340" height="140" viewBox="0 0 340 140">
+                        <!-- Wires A, B -->
+                        <line x1="20" y1="30" x2="70" y2="30" stroke="${s.A? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        <line x1="20" y1="70" x2="70" y2="70" stroke="${s.B? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        <!-- OR Gate -->
+                        <path d="M 65 15 Q 90 50 65 85 Q 110 85 140 50 Q 110 15 65 15 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <!-- Intermediate Wire -->
+                        <line x1="140" y1="50" x2="190" y2="50" stroke="${(s.A|s.B)? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        
+                        <!-- Wire C -->
+                        <line x1="20" y1="110" x2="190" y2="110" stroke="${s.C? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+
+                        <!-- AND Gate -->
+                        <path d="M 190 35 L 220 35 A 30 30 0 0 1 220 125 L 190 125 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <!-- Output Wire -->
+                        <line x1="250" y1="80" x2="300" y2="80" stroke="${res.out? '#22c55e':'#ef4444'}" stroke-width="3" />
+
+                        <text x="10" y="34" fill="#38bdf8" font-size="11" font-weight="bold">A=${s.A}</text>
+                        <text x="10" y="74" fill="#38bdf8" font-size="11" font-weight="bold">B=${s.B}</text>
+                        <text x="10" y="114" fill="#38bdf8" font-size="11" font-weight="bold">C=${s.C}</text>
+                        <text x="305" y="84" fill="${res.out? '#22c55e':'#ef4444'}" font-size="13" font-weight="bold">X=${res.out}</text>
+                    </svg>
+                `
+            },
+            "2": {
+                num: "Ejercicio N° 2",
+                formula: "X = (x1 · x2 + x3)'",
+                inputs: ['x1', 'x2', 'x3'],
+                state: { x1: 1, x2: 1, x3: 0 },
+                calc: (s) => {
+                    const andVal = s.x1 & s.x2;
+                    const orVal = andVal | s.x3;
+                    const notVal = orVal === 0 ? 1 : 0;
+                    return {
+                        inter: `x1 · x2 = ${andVal} | (x1·x2 + x3) = ${orVal}`,
+                        out: notVal
+                    };
+                },
+                svg: (s, res) => `
+                    <svg width="340" height="140" viewBox="0 0 340 140">
+                        <line x1="20" y1="25" x2="70" y2="25" stroke="${s.x1? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        <line x1="20" y1="55" x2="70" y2="55" stroke="${s.x2? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        <!-- AND -->
+                        <path d="M 70 10 L 95 10 A 25 25 0 0 1 95 70 L 70 70 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        
+                        <line x1="120" y1="40" x2="160" y2="40" stroke="${(s.x1&s.x2)? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+                        <line x1="20" y1="100" x2="160" y2="100" stroke="${s.x3? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+
+                        <!-- OR -->
+                        <path d="M 155 25 Q 180 70 155 115 Q 200 115 230 70 Q 200 25 155 25 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <line x1="230" y1="70" x2="260" y2="70" stroke="${((s.x1&s.x2)|s.x3)? '#22c55e':'#ef4444'}" stroke-width="2.5" />
+
+                        <!-- NOT -->
+                        <polygon points="260,45 260,95 295,70" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <circle cx="300" cy="70" r="4" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <line x1="304" y1="70" x2="330" y2="70" stroke="${res.out? '#22c55e':'#ef4444'}" stroke-width="3" />
+
+                        <text x="5" y="29" fill="#38bdf8" font-size="10">x1=${s.x1}</text>
+                        <text x="5" y="59" fill="#38bdf8" font-size="10">x2=${s.x2}</text>
+                        <text x="5" y="104" fill="#38bdf8" font-size="10">x3=${s.x3}</text>
+                    </svg>
+                `
+            },
+            "3": {
+                num: "Ejercicio N° 3",
+                formula: "y = AC + BC + ABC",
+                inputs: ['A', 'B', 'C'],
+                state: { A: 1, B: 0, C: 1 },
+                calc: (s) => {
+                    const term1 = s.A & s.C;
+                    const term2 = s.B & s.C;
+                    const term3 = s.A & s.B & s.C;
+                    const finalY = term1 | term2 | term3;
+                    return {
+                        inter: `AC=${term1}, BC=${term2}, ABC=${term3}`,
+                        out: finalY
+                    };
+                },
+                svg: (s, res) => `
+                    <svg width="340" height="140" viewBox="0 0 340 140">
+                        <text x="10" y="25" fill="#38bdf8" font-size="11">A=${s.A}</text>
+                        <text x="10" y="70" fill="#38bdf8" font-size="11">B=${s.B}</text>
+                        <text x="10" y="115" fill="#38bdf8" font-size="11">C=${s.C}</text>
+                        
+                        <rect x="70" y="15" width="80" height="30" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+                        <text x="110" y="34" fill="#94a3b8" font-size="10" text-anchor="middle">AND (AC)</text>
+
+                        <rect x="70" y="55" width="80" height="30" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+                        <text x="110" y="74" fill="#94a3b8" font-size="10" text-anchor="middle">AND (BC)</text>
+
+                        <rect x="70" y="95" width="80" height="30" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+                        <text x="110" y="114" fill="#94a3b8" font-size="10" text-anchor="middle">AND (ABC)</text>
+
+                        <path d="M 210 30 Q 230 70 210 110 Q 250 110 280 70 Q 250 30 210 30 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <line x1="280" y1="70" x2="320" y2="70" stroke="${res.out? '#22c55e':'#ef4444'}" stroke-width="3"/>
+                        <text x="322" y="74" fill="${res.out? '#22c55e':'#ef4444'}" font-size="12" font-weight="bold">y=${res.out}</text>
+                    </svg>
+                `
+            },
+            "4": {
+                num: "Ejercicio N° 4",
+                formula: "x = A·B + B'·C",
+                inputs: ['A', 'B', 'C'],
+                state: { A: 1, B: 0, C: 1 },
+                calc: (s) => {
+                    const ab = s.A & s.B;
+                    const notB = s.B === 0 ? 1 : 0;
+                    const bNotC = notB & s.C;
+                    const finalX = ab | bNotC;
+                    return {
+                        inter: `A·B = ${ab} | B' = ${notB} | B'·C = ${bNotC}`,
+                        out: finalX
+                    };
+                },
+                svg: (s, res) => `
+                    <svg width="340" height="140" viewBox="0 0 340 140">
+                        <text x="10" y="30" fill="#38bdf8" font-size="11">A=${s.A}</text>
+                        <text x="10" y="70" fill="#38bdf8" font-size="11">B=${s.B}</text>
+                        <text x="10" y="110" fill="#38bdf8" font-size="11">C=${s.C}</text>
+                        
+                        <rect x="80" y="15" width="70" height="35" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+                        <text x="115" y="37" fill="#94a3b8" font-size="10" text-anchor="middle">A·B</text>
+
+                        <rect x="80" y="85" width="70" height="35" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+                        <text x="115" y="107" fill="#94a3b8" font-size="10" text-anchor="middle">B'·C</text>
+
+                        <path d="M 210 30 Q 230 70 210 110 Q 250 110 280 70 Q 250 30 210 30 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+                        <line x1="280" y1="70" x2="320" y2="70" stroke="${res.out? '#22c55e':'#ef4444'}" stroke-width="3"/>
+                        <text x="322" y="74" fill="${res.out? '#22c55e':'#ef4444'}" font-size="12" font-weight="bold">x=${res.out}</text>
+                    </svg>
+                `
+            }
+        };
+
+        function loadSelectedCircuit() {
+            const id = document.getElementById('circuit-select').value;
+            const cData = circuitsData[id];
+            
+            document.getElementById('circuit-num-label').textContent = cData.num;
+            document.getElementById('circuit-formula').textContent = cData.formula;
+
+            // Render Input Buttons
+            const inputsContainer = document.getElementById('sim-inputs-container');
+            inputsContainer.innerHTML = cData.inputs.map(inp => {
+                const val = cData.state[inp];
+                return `
+                    <button onclick="toggleCircuitInput('${id}', '${inp}')" class="px-3 py-1.5 rounded text-xs font-mono font-bold flex items-center gap-2 border ${val === 1 ? 'bg-emerald-950 text-emerald-300 border-emerald-700' : 'bg-red-950 text-red-300 border-red-800'}">
+                        <span>${inp}</span>
+                        <span class="bg-slate-900 px-1.5 py-0.5 rounded">${val}</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Calculate and draw SVG
+            const res = cData.calc(cData.state);
+            document.getElementById('sim-circuit-svg').innerHTML = cData.svg(cData.state, res);
+            document.getElementById('sim-intermediates').innerHTML = `
+                <div><span class="text-slate-400">Valores Intermedios:</span> ${res.inter}</div>
+                <div><span class="text-slate-400">Salida Final:</span> <strong class="text-emerald-400 font-bold">${res.out}</strong></div>
+            `;
+
+            // Render Truth Table for circuit
+            renderSimTruthTable(cData);
+        }
+
+        function toggleCircuitInput(circuitId, inpKey) {
+            circuitsData[circuitId].state[inpKey] = circuitsData[circuitId].state[inpKey] === 0 ? 1 : 0;
+            loadSelectedCircuit();
+        }
+
+        function renderSimTruthTable(cData) {
+            const table = document.getElementById('sim-truth-table');
+            const n = cData.inputs.length;
+            const rowsCount = Math.pow(2, n);
+
+            let headerHtml = `
+                <thead>
+                    <tr class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                        ${cData.inputs.map(inp => `<th class="py-2 px-2">${inp}</th>`).join('')}
+                        <th class="py-2 px-2 font-bold text-blue-400">Salida</th>
+                    </tr>
+                </thead>
+            `;
+
+            let rowsHtml = '';
+            for (let i = 0; i < rowsCount; i++) {
+                let st = {};
+                for (let j = 0; j < n; j++) {
+                    const bit = (i >> (n - 1 - j)) & 1;
+                    st[cData.inputs[j]] = bit;
+                }
+                const res = cData.calc(st);
+                
+                // Check if current row matches active simulation state
+                const isCurrent = cData.inputs.every(inp => st[inp] === cData.state[inp]);
+
+                rowsHtml += `
+                    <tr class="${isCurrent ? 'bg-blue-900/60 text-blue-200 font-bold' : 'hover:bg-slate-900/30 text-slate-400'} border-b border-slate-800/40">
+                        ${cData.inputs.map(inp => `<td class="py-1.5">${st[inp]}</td>`).join('')}
+                        <td class="py-1.5 font-mono ${res.out === 1 ? 'text-emerald-400' : 'text-red-400'}">${res.out}</td>
+                    </tr>
+                `;
+            }
+
+            table.innerHTML = headerHtml + `<tbody class="divide-y divide-slate-800">${rowsHtml}</tbody>`;
+        }
+
+        // --- 5. QUIZ INTERACTIVO (10 PREGUNTAS) ---
+        const quizQuestions = [
+            {
+                q: "¿Qué valores únicamente pueden tomar las constantes y variables del Álgebra de Boole?",
+                options: ["0 y 1", "Números enteros positivos", "Fracciones y decimales", "Cualquier número real"],
+                correct: 0,
+                explain: "El álgebra booleana opera exclusivamente con variables discretas binarias que sólo pueden tomar los valores 0 o 1."
+            },
+            {
+                q: "¿Qué representan los valores 0 y 1 booleanos?",
+                options: ["Cantidades numéricas absolutas", "El nivel lógico o estado de voltaje", "Valores de frecuencia en Hertz", "Porcentajes de ganancia"],
+                correct: 1,
+                explain: "0 y 1 no son números en álgebra de Boole; representan estados lógicos de voltaje (LOW/HIGH)."
+            },
+            {
+                q: "¿Cuáles son las TRES operaciones básicas fundamentales del Álgebra Booleana?",
+                options: ["Suma, Resta y Multiplicación", "AND, OR y NOT", "NAND, NOR y XOR", "Integración, Derivación y Límite"],
+                correct: 1,
+                explain: "Las tres operaciones fundamentales primarias son AND (producto lógico), OR (suma lógica) y NOT (inversión)."
+            },
+            {
+                q: "¿Cuántas combinaciones de entrada existen en una Tabla de Verdad de 4 entradas?",
+                options: ["8 combinaciones", "12 combinaciones", "16 combinaciones", "32 combinaciones"],
+                correct: 2,
+                explain: "El número de combinaciones en una tabla de verdad se calcula como 2^n. Para n = 4, tenemos 2^4 = 16 combinaciones."
+            },
+            {
+                q: "¿A qué operación matemática ordinaria o proposicional equivale la compuerta AND?",
+                options: ["Multiplicación o conjunción (∧)", "Suma o disyunción (∨)", "División o negación", "Raíz cuadrada"],
+                correct: 0,
+                explain: "La operación AND funciona similar al producto escalar / multiplicación y equivale a la conjunción lógica (∧)."
+            },
+            {
+                q: "¿A qué operación equivale la compuerta lógica OR?",
+                options: ["Resta ordinaria", "Suma o disyunción (∨)", "Inversión de polaridad", "Multiplicación de matrices"],
+                correct: 1,
+                explain: "La operación OR equivale a la suma lógica o disyunción (∨), donde la salida es 1 si al menos una entrada es 1."
+            },
+            {
+                q: "¿Cuál es la regla de precedencia por defecto entre AND y OR cuando no existen paréntesis?",
+                options: ["La operación OR se realiza primero", "La operación AND se realiza primero", "Se ejecutan al mismo tiempo", "Se evalúan de derecha a izquierda siempre"],
+                correct: 1,
+                explain: "Al igual que en el álgebra ordinaria, la multiplicación (AND) tiene mayor prioridad y se ejecuta antes que la suma (OR)."
+            },
+            {
+                q: "¿A qué combinación de compuertas equivale una compuerta NOR?",
+                options: ["Una compuerta AND seguida de un inversor", "Una compuerta OR seguida de un inversor NOT", "Dos compuertas AND en paralelo", "Un inversor seguido de una compuerta AND"],
+                correct: 1,
+                explain: "La compuerta NOR (Not-OR) equivale funcionalmente a una compuerta OR cuya salida pasa inmediatamente por un inversor NOT."
+            },
+            {
+                q: "¿A qué equivale funcionalmente una compuerta NAND?",
+                options: ["Una compuerta AND seguida de un inversor NOT", "Una compuerta OR seguida de una AND", "Dos inversores en serie", "Una compuerta NOR duplicada"],
+                correct: 0,
+                explain: "La compuerta NAND (Not-AND) es el resultado de negar la salida de una operación AND mediante un inversor."
+            },
+            {
+                q: "Para la expresión X = (A + B) · C, si A = 1, B = 0 y C = 1, ¿cuál es el valor resultante de la salida X?",
+                options: ["X = 0", "X = 1", "X = Indefinido", "X = -1"],
+                correct: 1,
+                explain: "Evaluando paréntesis: (1 + 0) = 1. Luego se efectúa la operación AND con C: 1 · 1 = 1."
+            }
+        ];
+
+        let currentQuizIdx = 0;
+        let quizAnswers = Array(10).fill(null);
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIdx];
+            document.getElementById('quiz-progress').textContent = `${currentQuizIdx + 1} / 10`;
+            document.getElementById('quiz-q-num').textContent = `Pregunta ${currentQuizIdx + 1} de 10`;
+            document.getElementById('quiz-q-text').textContent = q.q;
+
+            // Render options
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = q.options.map((opt, idx) => {
+                const isSelected = quizAnswers[currentQuizIdx] === idx;
+                return `
+                    <button onclick="selectQuizOption(${idx})" class="w-full text-left p-4 rounded-lg border transition-all text-sm flex items-start gap-3 ${isSelected ? 'bg-blue-900/40 border-blue-500 text-white font-semibold' : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800/80'}">
+                        <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-mono font-bold shrink-0 ${isSelected ? 'border-blue-400 text-blue-400 bg-blue-950' : 'border-slate-700 text-slate-500'}">
+                            ${String.fromCharCode(65 + idx)}
+                        </span>
+                        <span>${opt}</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Hide feedback & next button until answered
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('btn-next-q');
+
+            if (quizAnswers[currentQuizIdx] !== null) {
+                const selectedOpt = quizAnswers[currentQuizIdx];
+                const isCorrect = selectedOpt === q.correct;
+                feedbackBox.classList.remove('hidden');
+                feedbackBox.className = `p-4 rounded-lg mb-6 border text-sm ${isCorrect ? 'bg-emerald-950/60 border-emerald-800 text-emerald-200' : 'bg-red-950/60 border-red-800 text-red-200'}`;
+                feedbackBox.innerHTML = `
+                    <div class="font-bold mb-1 flex items-center gap-2">
+                        <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-400' : 'fa-circle-xmark text-red-400'}"></i>
+                        ${isCorrect ? '¡Respuesta Correcta!' : 'Respuesta Incorrecta'}
+                    </div>
+                    <div>${q.explain}</div>
+                `;
+                nextBtn.classList.remove('hidden');
+            } else {
+                feedbackBox.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+            }
+        }
+
+        function selectQuizOption(optionIdx) {
+            if (quizAnswers[currentQuizIdx] !== null) return; // Prevent changing after answer
+            quizAnswers[currentQuizIdx] = optionIdx;
+            renderQuizQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuizIdx < quizQuestions.length - 1) {
+                currentQuizIdx++;
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('question-card').classList.add('hidden');
+            const resultsCard = document.getElementById('quiz-results');
+            resultsCard.classList.remove('hidden');
+
+            let score = 0;
+            quizQuestions.forEach((q, idx) => {
+                if (quizAnswers[idx] === q.correct) score++;
+            });
+
+            document.getElementById('final-score-text').textContent = `${score} / 10`;
+            const ratingEle = document.getElementById('final-rating');
+
+            if (score >= 9) {
+                ratingEle.className = "text-xs font-semibold text-emerald-400";
+                ratingEle.textContent = "Excelente Dominio del Álgebra de Boole";
+            } else if (score >= 6) {
+                ratingEle.className = "text-xs font-semibold text-amber-400";
+                ratingEle.textContent = "Aprobado - Buen Desempeño";
+            } else {
+                ratingEle.className = "text-xs font-semibold text-red-400";
+                ratingEle.textContent = "Requiere Repasar los Conceptos de la Unidad";
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIdx = 0;
+            quizAnswers = Array(10).fill(null);
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('question-card').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        // --- INITIALIZATION ON LOAD ---
+        window.onload = function() {
+            updateCalcCombinations();
+            renderCurrentGate();
+            renderQuizQuestion();
+        };
+    </script>
+</body>
+</html>
